@@ -1,8 +1,13 @@
 
+import pprint
+import json
+
 import utils
 import audio_spliter
 from analyze import Analyze
 from finder import SearchHelper
+
+pp = pprint.PrettyPrinter(indent=4)
 
 def search(args):
   sh = SearchHelper()
@@ -10,7 +15,10 @@ def search(args):
   tags = args.keywords[0] if len(args.keywords) == 1 else args.keywords
   res = sh.search( tags )
 
-  print( "search : {}".format(res) )
+  print res["hits"]["total"], " match found"
+  for a in  res["hits"]["hits"]:
+    print "\t", a["_source"]["name"]
+
 
 def analyze(args):
   _analyze = Analyze( )

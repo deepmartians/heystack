@@ -35,8 +35,8 @@ class Labeller(object):
     if self.__how_many_labels is None:
       self.__how_many_labels = 1
 
-    self.__tf_session = tf.Session()
-    self.__session_tensor = self.__tf_session.graph.get_tensor_by_name( self.__output_name )
+    self._tf_session = tf.Session()
+    self._session_tensor = self._tf_session.graph.get_tensor_by_name( self.__output_name )
 
 
   def __loadGraph(self):
@@ -57,13 +57,14 @@ class Labeller(object):
     _input = { self.__input_name : a_wav_file_raw_data }
 
     # Getting predictions values
-    predictions, = self.__tf_session.run( self._session_tensor, _input )
+    predictions, = self._tf_session.run( self._session_tensor, _input )
 
     # Sort to show labels in order of confidence
     top_k = predictions.argsort()[-self.__how_many_labels:][::-1]
 
     # preparing output
     data_to_return = [ ( self.__readble_labels[i], predictions[i] ) for i in top_k ]
+    data_to_return = self.__readble_labels[top_k[0]] 
 
     return data_to_return
 
