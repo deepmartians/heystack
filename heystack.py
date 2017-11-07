@@ -6,13 +6,15 @@ from finder import SearchHelper
 
 def search(args):
 	sh = SearchHelper()
-	res = sh.search( args.keywords )
+
+	tags = args.keywords[0] if len(args.keywords) == 1 else args.keywords
+	res = sh.search( tags )
+
 	print( "search : {}".format(res) )
 
 def analyze(args):
 	_analyze = Analyze( )
 
-	# args.input_dir is actually of dict type with keys like "mp3", "wav" etc and values like list of files
 	normalized_wav_chunks = audio_utils.normalizeAudioData( args.input_dir )
 	l,s = _analyze.analyze( normalized_wav_chunks )
 
@@ -22,9 +24,12 @@ def analyze(args):
 if __name__ == '__main__':
 
   args = utils.parseArgs()
-  print dir(args)
-  print args.keywords
-  print args.input_dir
-	#analyze(args)
-	#search(args)
 
+  if args.input_dir is not None:
+		analyze(args)
+
+  if args.keywords is not None:
+		search(args)
+
+  if args.input_dir is None and args.keywords is None:
+		print "Nothing to do"
