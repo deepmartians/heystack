@@ -37,10 +37,10 @@ class Storage(object):
 
 	def __frameSearchQueryBody(self, tags):
 		_body = None
-		if type(tags) = str:
+		if type(tags) == str:
 			_body = self.__frameSimpleSearchQueryBody( tags )
-		else type(tags) = list:
-			_body = self.__frameSearchQueryBodyForList( tags )\
+		elif type(tags) == list:
+			_body = self.__frameSearchQueryBodyForList( tags )
 		return _body
 
 

@@ -1,6 +1,6 @@
 
 import utils
-import audio_utils
+#import audio_utils
 from analyze import Analyze
 from finder import SearchHelper
 
@@ -22,6 +22,9 @@ def analyze(args):
 if __name__ == '__main__':
 
   args = utils.parseArgs()
-	analyze(args)
+  print dir(args)
+  print args.keywords
+  print args.input_dir
+	#analyze(args)
 	#search(args)
 

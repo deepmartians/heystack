@@ -50,17 +50,16 @@ class Labeller(object):
 
 	def getPredictedLabelForWavFile(self, a_wav_file_raw_data):
 		"""Runs the wave form of audio data through the graph and return the predictions."""
+		_input = { self.__input_name : a_wav_file_raw_data }
 
-			_input = { self.__input_name : a_wav_file_raw_data }
+		# Getting predictions values
+		predictions, = self.__tf_session.run( self._session_tensor, _input )
 
-			# Getting predictions values
-			predictions, = self.__tf_session.run( self._session_tensor, _input )
+		# Sort to show labels in order of confidence
+		top_k = predictions.argsort()[-self.__how_many_labels:][::-1]
 
-			# Sort to show labels in order of confidence
-			top_k = predictions.argsort()[-self.__how_many_labels:][::-1]
+		# preparing output
+		data_to_return = [ ( self.__readble_labels[i], predictions[i] ) for i in top_k ]
 
-			# preparing output
-			data_to_return = [ ( self.__readble_labels[i], predictions[i] ) for i in top_k ]
-
-			return data_to_return
+		return data_to_return
 
