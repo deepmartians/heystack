@@ -7,7 +7,7 @@ class Storage(object):
 	_doc_type = "voice_call_type"
 
 	def __init__(self):
-		self._db = Elasticsearch()
+		self._db = Elasticsearch( [ { 'host':'192.168.1.8', 'port':9200 } ] )
 		self.__createIndex()
 
 
@@ -25,7 +25,7 @@ class Storage(object):
 	def search(self, tags):
 		query = self.__frameSearchQueryBody(tags)
 		if query is not None:
-			response = self._db.indices.search( index=Storage._index_name, doc_type=Storage._doc_type, body=query )
+			response = self._db.search( index=Storage._index_name, doc_type=Storage._doc_type, body=query )
 			return response
 		else:
 			print "wrong query"
@@ -72,7 +72,7 @@ class Storage(object):
 				"match" : key_value_pair
 				}
 			}
-		response = self._db.indices.search( index=Storage._index_name, doc_type=Storage._doc_type, body=query )
+		response = self._db.search( index=Storage._index_name, doc_type=Storage._doc_type, body=query )
 		total_rows = response["hits"]["total"]
 		if total_rows == 0:
 			return None, None

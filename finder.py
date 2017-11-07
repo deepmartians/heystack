@@ -10,7 +10,7 @@ class SearchHelper(object):
 
 
 	def search(self, tags):
-		response = self.storage.search( tags )
+		response = self._storage.search( tags )
 		return response
 
 
