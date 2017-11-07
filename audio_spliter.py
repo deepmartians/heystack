@@ -30,6 +30,7 @@ class FilePersister:
 				raise
 
 def getAudioChunks( wavFiles, min_silence_len = 800, silence_thresh=-16, isPersist=False ):
+	chunks = []
 	for wavFile in wavFiles:
 		filePersister = None
 		if isPersist:
@@ -40,13 +41,18 @@ def getAudioChunks( wavFiles, min_silence_len = 800, silence_thresh=-16, isPersi
 		audio_chunks = split_on_silence(sound_file, min_silence_len=min_silence_len, silence_thresh=silence_thresh)
 		print '{} audio chunks found...'.format(len(audio_chunks))
 
-		chunks = []
+		currentChunks = []
 		for chunk_id, chunk in enumerate(audio_chunks):
-			print dir(chunk)
-			chunks.append(chunk.raw_data())
+			currentChunks.append(chunk.raw_data())
 			if filePersister:
 				filePersister.save(chunk, chunk_id)
-		return chunks
+
+		if len(currentChunks) == 0:
+			with open(wav, 'rb') as wf:
+				currentChunks.append(wf.read())
+
+		chunks.extend(currentChunks)
+	return chunks
 
 if __name__ == '__main__':
 	if len(sys.argv) <= 1: 
