@@ -1,4 +1,5 @@
 import sys
+import os
 import tensorflow as tf
 
 # pylint: disable=unused-import
@@ -41,7 +42,8 @@ class Labeller(object):
 
   def __loadGraph(self):
     """Unpersists graph from file as default graph."""
-    with tf.gfile.FastGFile(self.__graph_file, 'rb') as f:
+    path = os.path.join(os.path.dirname(__file__), self.__graph_file)
+    with tf.gfile.FastGFile(path, 'rb') as f:
       graph_def = tf.GraphDef()
       graph_def.ParseFromString( f.read() )
       tf.import_graph_def (graph_def, name='' )
@@ -49,7 +51,8 @@ class Labeller(object):
 
   def __loadLabels(self):
     """Read in labels, one label per line."""
-    self.__readble_labels = [ line.rstrip() for line in tf.gfile.GFile( self.__label_file ) ]
+    path = os.path.join(os.path.dirname(__file__), self.__label_file)
+    self.__readble_labels = [ line.rstrip() for line in tf.gfile.GFile(path) ]
 
 
   def analyze(self, a_wav_file_raw_data):
