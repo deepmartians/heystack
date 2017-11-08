@@ -41,24 +41,22 @@ def getAudioChunks( wavFiles, min_silence_len = 800, silence_thresh=-16, isPersi
     if isPersist:
       filePersister = FilePersister(wavFile, isPersist, min_silence_len, silence_thresh)
 
-    print 'Splitting "{}"  with min_sil_len: {} and sil_thresh: {} ...'.format(wavFile, min_silence_len, silence_thresh)
+    #print 'Splitting "{}"  with min_sil_len: {} and sil_thresh: {} ...'.format(wavFile, min_silence_len, silence_thresh)
     sound_file = AudioSegment.from_wav(wavFile)
     audio_chunks = split_on_silence(sound_file, min_silence_len=min_silence_len, silence_thresh=silence_thresh)
-    print '{} audio chunks found...'.format(len(audio_chunks))
+    #print '{} audio chunks found...'.format(len(audio_chunks))
 
     currentChunks = []
     for chunk_id, chunk in enumerate(audio_chunks):
-      #print type(chunk)
-      #print type(chunk.raw_data)
       '''
       currentChunks.append(AudioChunk(wavFile, chunk.raw_data))
       if filePersister:
         filePersister.save(chunk, chunk_id)
       '''
 
-    if len(currentChunks) == 0:
-      with open(wavFile, 'rb') as wf:
-        currentChunks.append(AudioChunk(wavFile, wf.read()))
+    #if len(currentChunks) == 0:
+    with open(wavFile, 'rb') as wf:
+      currentChunks.append(AudioChunk(wavFile, wf.read()))
 
     chunks.extend(currentChunks)
   return chunks

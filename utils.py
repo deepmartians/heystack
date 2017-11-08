@@ -9,7 +9,11 @@ def parseArgs(_argsi=None):
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-i", "--input_dir" ,type=parseInputDir, help="Path of the dir where audio files are present")
-	parser.add_argument("-k", "--keywords", help="The keywords to be searched for", nargs='*')
+	parser.add_argument("-s", "--search", help="The keywords to be searched for", nargs='*')
+	parser.add_argument("-m", "--model", default="models/frozengraph_heystack.pb", help="Model used to analyse the input file")
+	parser.add_argument("-l", "--labels", default="models/labels.txt", help="Labels to be analysed")
+	parser.add_argument("-d", "--db_host", default="127.0.0.1", help="DB hostname")
+	parser.add_argument("-p", "--port", default=9200, help="DB port no.")
 
 	return parser.parse_args()
 

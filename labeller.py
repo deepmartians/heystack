@@ -52,7 +52,7 @@ class Labeller(object):
     self.__readble_labels = [ line.rstrip() for line in tf.gfile.GFile( self.__label_file ) ]
 
 
-  def getPredictedLabelForWavFile(self, a_wav_file_raw_data):
+  def analyze(self, a_wav_file_raw_data):
     """Runs the wave form of audio data through the graph and return the predictions."""
     _input = { self.__input_name : a_wav_file_raw_data }
 

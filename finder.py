@@ -3,8 +3,8 @@ from storage import Storage
 
 class SearchHelper(object):
 
-  def __init__(self, tags=None):
-    self._storage = Storage()
+  def __init__(self, hostName, port, tags=None):
+    self._storage = Storage(hostName, port)
     if tags is not None:
       self.analyze( tags )
 
